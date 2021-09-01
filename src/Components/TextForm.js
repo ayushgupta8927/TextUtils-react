@@ -40,7 +40,12 @@ export default function TextForm(props) {
 
 
     }
-    
+    const countwords=(text)=>{
+        text= text.replace(/(^\s*)|(\s*$)/gi,"");//exclude  start and end white-space
+        text= text.replace(/[ ]{2,}/gi," ");//2 or more space to 1
+        text= text.replace(/\n /,"\n"); // exclude newline with a start spacing
+        return text.split(' ').filter(function(str){return str!=="";}).length;
+    }
 
     const [text,setText]=useState("");
     // setText("New text here");
@@ -65,8 +70,8 @@ export default function TextForm(props) {
         </div>
         <div className="container my-3"style={{color : props.mode==='dark'?'white':'#343a40'}}>
             <h1>Paragraph Summary</h1>
-            <p>{text.split(" ").length} words and {text.length} characters</p>
-            <p>{0.008*text.split(" ").length} minutes read</p>
+            <p>{countwords(text)} words and {text.length} characters</p>
+            <p>{0.008*countwords(text)} minutes read</p>
             <h3>Preview</h3>
             <p>{text.length>0?text:"Enter something in the above Textbox to preview it here"}</p>
         </div>
